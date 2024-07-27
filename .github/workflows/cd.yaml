@@ -12,6 +12,11 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Context Information
+        run: |
+          echo "pr branch name: ${{ github.head_ref }}"
+          echo "pr number: ${{ github.event.pull_request.number }}"
+          echo "pr creator: ${{ github.event.pull_request.user.login }}"
       - uses: actions/checkout@v4
       - name: Auth for Container registry
         uses: docker/login-action@v3
