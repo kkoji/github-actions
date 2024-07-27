@@ -1,7 +1,14 @@
-name: Go Test
+name: ci
 
 on:
-  push:
+  pull_request:
+    branches:
+      - main
+  push: # commitがPushされた場合に実行
+  issue_comment:
+    types: [created] # コメントが投稿された場合に実行
+  schedule:
+    - cron: "0 9 * * *" # 毎日hla 9:00 UTCに実行
 
 jobs:
   build:
@@ -14,7 +21,13 @@ jobs:
       - name:  Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.22.2'
+      - name: フォーマット実行
+        run: test -z $(gofmt -l .)
+      - name: 静的解析実行
+        run: go vet ./...
+      - name: テスト実行
+        run: go test
       # 詳細モードでgoのプログラムをビルド
       - name: Build
         run: go build -v .
