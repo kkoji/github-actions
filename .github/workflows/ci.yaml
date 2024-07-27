@@ -4,11 +4,11 @@ on:
   pull_request:
     branches:
       - main
-  push: # commitがPushされた場合に実行
-  issue_comment:
-    types: [created] # コメントが投稿された場合に実行
-  schedule:
-    - cron: "0 9 * * *" # 毎日hla 9:00 UTCに実行
+  # push: # commitがPushされた場合に実行
+  # issue_comment:
+  #   types: [created] # コメントが投稿された場合に実行
+  # schedule:
+  #   - cron: "0 9 * * *" # 毎日hla 9:00 UTCに実行
 
 jobs:
   ci:
@@ -18,6 +18,11 @@ jobs:
     steps:
       # Pushされたコードのチェックアウト
       - uses: actions/checkout@v4
+      - name: Context Information
+        run: |
+          echo "pr branch name: ${{ github.head_ref }}"
+          echo "pr number: ${{ github.event.pull_request.number }}"
+          echo "pr creator: ${{ github.event.pull_request.user.login }}"
       # Go 1.22のセットアップ
       - name:  Set up Go
         uses: actions/setup-go@v5
