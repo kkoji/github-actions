@@ -11,7 +11,8 @@ on:
     - cron: "0 9 * * *" # 毎日hla 9:00 UTCに実行
 
 jobs:
-  build:
+  ci:
+    name: ci
     # jobの実行環境
     runs-on: ubuntu-latest
     steps:
